@@ -4,9 +4,11 @@ const { Vec3 } = require('vec3')
 const assert = require('assert')
 const nbt = require('prismarine-nbt')
 
-const testedVersions = ['1.8', '1.13', '1.14', '1.16', '1.17']
+const todoVersions = ['1.9', '1.10', '1.11', '1.12']
+const testedVersions = require('../').supportedVersions
 
 for (const version of testedVersions) {
+  if (todoVersions.includes(version)) continue
   const registry = require('prismarine-registry')(version)
   const Chunk = require('prismarine-chunk')(registry)
   const chunk = new Chunk()
