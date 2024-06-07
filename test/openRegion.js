@@ -7,6 +7,7 @@ const versions = fs.readdirSync(fixtures)
 describe('can get chunks from region files', function () {
   this.timeout(5 * 1000)
   for (const version of versions) {
+    if (version === '.DS_Store') continue
     it(`works for ${version}`, async () => {
       const Anvil = require('prismarine-provider-anvil').Anvil(version)
       const filePath = path.join(fixtures, version)
