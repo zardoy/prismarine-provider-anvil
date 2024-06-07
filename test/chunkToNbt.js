@@ -4,8 +4,7 @@ const { Vec3 } = require('vec3')
 const assert = require('assert')
 const nbt = require('prismarine-nbt')
 
-const todoVersions = ['1.9', '1.10', '1.11', '1.12']
-const testedVersions = require('../').supportedVersions
+const testedVersions = ['1.8', '1.13', '1.14', '1.16', '1.17']
 
 for (const version of testedVersions) {
   if (todoVersions.includes(version)) continue
