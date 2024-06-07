@@ -13,7 +13,7 @@ const chunkImplementations = {
   1.17: () => require('./1.14/chunk')('1.17', 2730, true),
   1.18: () => require('./1.18/chunk'),
   1.19: () => require('./1.18/chunk'),
-  '1.20': () => require('./1.18/chunk'),
+  '1.20': () => require('./1.18/chunk')
   // 1.21: () => require('./1.18/chunk')
 }
 
