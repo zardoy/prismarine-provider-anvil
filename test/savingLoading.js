@@ -7,7 +7,7 @@ const range = require('range').range
 const { Vec3 } = require('vec3')
 const assert = require('assert')
 
-const todoVersions = ['1.9', '1.10', '1.12']
+const todoVersions = ['1.9', '1.10', '1.11', '1.12']
 const testedVersions = require('../').supportedVersions
 
 for (const version of testedVersions) {
