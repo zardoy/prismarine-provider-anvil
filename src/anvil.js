@@ -62,7 +62,7 @@ module.exports = (mcVersion) => {
           }
         }
       }
-      const toRet = await Promise.all(chunks)
+      const toRet = (await Promise.allSettled(chunks)).filter(x => x.status === 'fulfilled').map(x => x.value)
       await region.file.close()
       return toRet
     }
