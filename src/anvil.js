@@ -52,7 +52,7 @@ module.exports = (mcVersion) => {
       await region.write(x & 0x1F, z & 0x1F, nbt)
     }
 
-    async getAllChunksInRegion (x, z) {
+    async getAllChunksInRegion (x, z, errored = []) {
       const region = await this.getRegion(x * 32, z * 32)
       const chunks = []
       for (let _x = 0; _x < 32; _x++) {
@@ -62,7 +62,14 @@ module.exports = (mcVersion) => {
           }
         }
       }
-      const toRet = (await Promise.allSettled(chunks)).filter(x => x.status === 'fulfilled').map(x => x.value)
+      const toRet = (await Promise.allSettled(chunks)).filter(x => {
+        if (x.status === 'rejected') {
+          // todo include xz
+          errored.push(x.reason)
+          return false
+        }
+        return x.status === 'fulfilled';
+      }).map(x => x.value)
       await region.file.close()
       return toRet
     }
