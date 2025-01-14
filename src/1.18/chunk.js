@@ -114,31 +114,46 @@ module.exports = (ChunkColumn, registry) => {
 
   function fromNBT (tag) {
     let data = nbt.simplify(tag)
-    if (data.Level) {
+    const isNewFormat = !!data.Level
+    if (isNewFormat) {
       data = data.Level
     }
-    const column = new ChunkColumn({ minY: -64, worldHeight: 384 })
-    assert(data.Status === 'minecraft:full' || data.Status === 'full', 'Invalid chunk status, must be full: ' + data.Status)
 
+    const column = new ChunkColumn({ minY: -64, worldHeight: 384 })
     column.x = data.xPos
     column.z = data.zPos
     column.lastUpdate = data.LastUpdate.valueOf()
     column.inhabitedTime = data.InhabitedTime.valueOf()
 
-    for (const section of data.sections) {
-      if (!section.block_states) continue
-      let bitsPerBlock = Math.ceil(Math.log2(section.block_states.palette.length))
-      const bitsPerBiome = Math.ceil(Math.log2(section.biomes.palette.length))
+    for (const section of data.sections ?? data.Sections) {
+      if (isNewFormat && !section.BlockStates) {
+        continue
+      }
+
+      let bitsPerBlock = Math.ceil(Math.log2((section.block_states?.palette ?? section.Palette).length))
+      const bitsPerBiome = Math.ceil(Math.log2(section.biomes?.palette?.length ?? 4))
 
       if (bitsPerBlock === 1 || bitsPerBlock === 2 || bitsPerBlock === 3) {
         bitsPerBlock = 4
       }
 
-      column.loadSection(section.Y, { ...section.block_states, bitsPerBlock }, { ...section.biomes, bitsPerBiome }, section.BlockLight, section.SkyLight)
+      column.loadSection(section.Y, {
+        ...section.block_states ?? {
+          data: section.BlockStates,
+          palette: section.Palette
+        },
+        bitsPerBlock
+      }, {
+        ...section.biomes ?? {
+          data: section.Biomes,
+          palette: section.BiomePalette ?? []
+        },
+        bitsPerBiome
+      }, section.BlockLight, section.SkyLight)
     }
 
-    if (data.block_entities.length) {
-      column.loadBlockEntities(tag.value.block_entities.value.value)
+    if ((data.block_entities ?? data.TileEntities).length) {
+      column.loadBlockEntities((tag.value.block_entities ?? tag.value.Level.value.TileEntities).value.value)
     }
 
     // Ignore height map data
