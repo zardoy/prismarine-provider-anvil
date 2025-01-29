@@ -126,7 +126,7 @@ module.exports = (ChunkColumn, registry) => {
     column.inhabitedTime = data.InhabitedTime.valueOf()
 
     for (const section of data.sections ?? data.Sections) {
-      if (isNewFormat && !section.BlockStates) {
+      if ((isNewFormat ? !section.BlockStates : !section.block_states)) {
         continue
       }
 
