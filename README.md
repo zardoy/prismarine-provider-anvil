@@ -2,11 +2,17 @@
 [![NPM version](https://img.shields.io/npm/v/prismarine-provider-anvil.svg)](http://npmjs.com/package/prismarine-provider-anvil)
 [![Build Status](https://github.com/PrismarineJS/prismarine-provider-anvil/workflows/CI/badge.svg)](https://github.com/PrismarineJS/prismarine-provider-anvil/actions?query=workflow%3A%22CI%22)
 
-Anvil Storage Provider implementation. Support minecraft pc 1.8, 1.9, 1.10, 1.11, 1.12, 1.13, 1.14, 1.15, 1.16, 1.17 and 1.18
+Anvil Storage Provider implementation. Support minecraft pc 1.8, 1.9, 1.10, 1.11, 1.12, 1.13, 1.14, 1.15, 1.16, 1.17, 1.18, 1.19, 1.20 and 1.21
 
 ## Usage
 
 See [examples](examples)
+
+## Test
+
+Run single test with `npm run mochaTest -- -g "saving and loading works 1.8.9 in sequence"`
+
+All tests with `npm test`
 
 ## API
 
@@ -46,6 +52,30 @@ Reads a level.dat file
 Writes a level.dat file
 
 ## History
+
+### 2.13.0
+* [Use sync zlib to avoid uncaught async errors (#98)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/3820535cd1778bf0a451dd78c0fe3626dbd89cfb) (thanks @rom1504)
+
+### 2.12.0
+* [Update CI to Node 24 (#95)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/8d880ae3dc09dcc21d5079ef2ea5043a8539f61c) (thanks @rom1504)
+* [Fix publish condition for npm-publish v4 (#94)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/35292f5f61b5f77f02a36b77bec1fbeab63f32d9) (thanks @rom1504)
+* [Switch to trusted publishing via OIDC (#93)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/0202210ed234a3d7efabb3698f90dcbfb72ac468) (thanks @rom1504)
+* [node 22 (#91)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/cfc8ef4c6aa95fb3303fee80d32639023be110b8) (thanks @rom1504)
+* [Test all region files instead of only first one (#88)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/55fda80b6360aaef6056ab8b54caed0d14ac4096) (thanks @zardoy)
+
+### 2.11.0
+* [Update npm-publish.yml](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/9bf7e1f80a679caf3b25f5cdcaa3a58e7ddb4404) (thanks @rom1504)
+
+### 2.10.0
+* [Quick fix for pc1.17 masks (#85)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/790db07d75d919f52056772c0998164b6587cd51) (thanks @extremeheat)
+* [Bump mocha from 10.8.2 to 11.0.1 (#83)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/25da171b17f69e4252764931f8adba88b93f5a18) (thanks @dependabot[bot])
+* [pc1.14-1.17: Don't read empty sections (#84)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/8ef34214f1221ac3e997ce2404634d3ae0c944c4) (thanks @extremeheat)
+
+### 2.9.0
+* [Support 1.18.2, 1.19.4, 1.20.6, 1.21.1 (#81)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/19bb778da80bb600cac9ee9d9f47f1d477e9b0cd) (thanks @rom1504)
+* [Fix test versions. (#80)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/6b0517ef64623d031b6dfbcd422bf0149d9cacc0) (thanks @rom1504)
+* [Default to biome minecraft:void (#76)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/dc32ad7326a815ab7f110f52d07df20f5b68527a) (thanks @AnotherPillow)
+* [Handle optional palette in 1.14 chunk.js (#74)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/844445b0bb4cd83a5047c3afd419a211b0805cbc) (thanks @rom1504)
 
 ### 2.8.0
 * [require lazily (#70)](https://github.com/PrismarineJS/prismarine-provider-anvil/commit/257f7fd2d995a54fe7e275909b264be106b95063) (thanks @zardoy)

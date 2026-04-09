@@ -1,11 +1,12 @@
 {
   "name": "prismarine-provider-anvil",
-  "version": "2.8.0",
+  "version": "2.13.0",
   "description": "Anvil Storage Provider implementation.",
   "main": "index.js",
   "typings": "src/index.d.ts",
   "scripts": {
-    "test": "mocha test/",
+    "test": "npm run mochaTest",
+    "mochaTest": "mocha test/",
     "pretest": "npm run lint",
     "lint": "standard",
     "fix": "standard --fix"
@@ -31,7 +32,7 @@
     "buffer-equal": "^1.0.0",
     "flatmap": "0.0.3",
     "minecraft-data": "^3.0.0",
-    "mocha": "^10.0.0",
+    "mocha": "^11.0.1",
     "prismarine-provider-anvil": "file:.",
     "prismarine-registry": "^1.1.0",
     "range": "0.0.3",
@@ -39,10 +40,9 @@
   },
   "dependencies": {
     "prismarine-block": "^1.17.1",
-    "prismarine-chunk": "github:zardoy/prismarine-chunk",
-    "prismarine-nbt": "^2.5.0",
-    "prismarine-world": "^3.6.3",
+    "prismarine-chunk": "^1.38.1",
+    "prismarine-nbt": "^2.0.0",
     "uint4": "^0.1.2",
-    "vec3": "^0.1.6"
+    "vec3": "^0.2.0"
   }
 }

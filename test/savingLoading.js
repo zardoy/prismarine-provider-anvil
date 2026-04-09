@@ -6,28 +6,32 @@ const flatMap = require('flatmap')
 const range = require('range').range
 const { Vec3 } = require('vec3')
 const assert = require('assert')
+const prismarineProviderAnvil = require('prismarine-provider-anvil')
+const compareChunks = require('./common').compareChunks
 
 const todoVersions = ['1.9', '1.10', '1.11', '1.12']
-const testedVersions = require('../').supportedVersions
+const testedVersions = prismarineProviderAnvil.testedVersions
 
 for (const version of testedVersions) {
   if (todoVersions.includes(version)) continue
   const Chunk = require('prismarine-chunk')(version)
-  const mcData = require('minecraft-data')(version)
-  const Anvil = require('../').Anvil(version)
-
-  const chunkConfig = mcData.supportFeature('tallWorld') ? { minY: -64, worldHeight: 384 } : undefined
+  const registry = require('prismarine-registry')(version)
+  const chunkOptions = {
+    minY: registry.supportFeature('tallWorld') ? -64 : 0,
+    worldHeight: registry.supportFeature('tallWorld') ? 384 : 256
+  }
+  const Anvil = prismarineProviderAnvil.Anvil(version)
 
   describe('saving and loading works ' + version, function () {
     this.timeout(60 * 1000)
 
     function generateRandomChunk (chunkX, chunkZ) {
-      const chunk = new Chunk(chunkConfig)
+      const chunk = new Chunk(chunkOptions)
 
       for (let x = 0; x < 16; x++) {
         for (let z = 0; z < 16; z++) {
           chunk.setBlockType(new Vec3(x, 50, z), Math.floor(Math.random() * 50))
-          for (let y = 0; y < 256; y++) {
+          for (let y = chunkOptions.minY; y < chunkOptions.worldHeight + chunkOptions.minY; y++) {
             chunk.setSkyLight(new Vec3(x, y, z), 15)
           }
         }
@@ -59,13 +63,13 @@ for (const version of testedVersions) {
             const blockB = loadedChunk.getBlock(new Vec3(0, 50, 0))
             assert.strictEqual(
               blockA.stateId, blockB.stateId, 'wrong block type at 0,50,0 at chunk ' + chunkX + ', ' + chunkZ)
-            assert(originalChunk.dump().equals(loadedChunk.dump()))
+            compareChunks(originalChunk, loadedChunk, chunkOptions)
           })
       )
       await anvil.close()
     }
 
-    describe('in sequence ' + version, async () => {
+    describe('in sequence ', async () => {
       fs.rmSync(regionPath, { recursive: true, force: true })
       fs.mkdirSync(regionPath, { recursive: true, force: true })
 
@@ -81,7 +85,7 @@ for (const version of testedVersions) {
       it('load the world correctly in parallel', loadInParallel)
     })
 
-    describe('in parallel ' + version, () => {
+    describe('in parallel ', () => {
       fs.rmSync(regionPath, { recursive: true, force: true })
       fs.mkdirSync(regionPath, { recursive: true, force: true })
 
